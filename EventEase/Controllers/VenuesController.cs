@@ -13,8 +13,9 @@ namespace EventEase.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            
             var venues = await _context.Venues.ToListAsync();
-            return View();
+            return View(venues);
         }
     }
 }
