@@ -1,3 +1,7 @@
+using EventEase.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 namespace EventEase
 {
     public class Program
@@ -9,6 +13,7 @@ namespace EventEase
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddDbContext<ApplicationDBContexts>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
