@@ -1,12 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventEase.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventEase.Controllers
 {
     public class EventsController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDBContexts _context;
+        public EventsController(ApplicationDBContexts context)
         {
-            return View();
+            _context = context;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var Venues = await _context.Venues.ToListAsync();
+            return View(Venues);
         }
     }
 }
