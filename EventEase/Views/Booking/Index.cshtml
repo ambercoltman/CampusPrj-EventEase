@@ -1,0 +1,65 @@
+﻿@model IEnumerable<EventEase.Models.Booking>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Booking Page</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Venues)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Events)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.bookingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.bookingStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.paymentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.paymentStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venues.VenueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Events.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bookingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bookingStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.paymentMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.paymentStatus)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
