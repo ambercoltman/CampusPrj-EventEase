@@ -40,7 +40,7 @@ namespace EventEase.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            var booking = await _context.Events.FirstOrDefaultAsync(mbox => mbox.Id == id);
+            var booking = await _context.Booking.FirstOrDefaultAsync(mbox => mbox.Id == id);
 
             if (booking == null)
             {
@@ -66,7 +66,7 @@ namespace EventEase.Controllers
 
         public bool BookingExists(int id)
         {
-            return _context.Events.Any(e => e.Id == id);
+            return _context.Booking.Any(e => e.Id == id);
         }
         [HttpPost]
 
