@@ -15,7 +15,7 @@ namespace EventEase
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ApplicationDBContexts>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            var app = builder.Build();
+            
 
             //Configure the Azure Blob Storage
             builder.Services.AddSingleton(sp =>
@@ -23,6 +23,7 @@ namespace EventEase
                 var config = sp.GetRequiredService<IConfiguration>();
                 return new BlobServiceClient(config["AzureBlobStorage:ConnectionString"]);
             });
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
