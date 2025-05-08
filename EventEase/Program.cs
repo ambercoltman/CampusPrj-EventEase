@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using EventEase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,13 @@ namespace EventEase
 
             builder.Services.AddDbContext<ApplicationDBContexts>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
+
+            //Configure the Azure Blob Storage
+            builder.Services.AddSingleton(sp =>
+            {
+                var config = sp.GetRequiredService<IConfiguration>();
+                return new BlobServiceClient(config["AzureBlobStorage:ConnectionString"]);
+            });
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
