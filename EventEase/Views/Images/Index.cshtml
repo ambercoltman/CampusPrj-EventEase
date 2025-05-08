@@ -1,0 +1,47 @@
+﻿@model List<Images>
+
+<h2 class="text-center mt-4"🏦Venues</h2>
+
+<div class="container mt-3">
+	<div class="row">
+		@foreach (var Venues in Model)
+		{
+			<div class="col-md-4 mb-4">
+				<div class="card shadow-sm text-center">
+					<img src="@venues.ImageUrl" class="card-img-top img-fluid rounded" alt="@venues.VenueName">
+					<div class="card-body">
+						<h5 class="card-title">@venues.VenueName</h5>
+						<p class="card-text"><strong>Location:</strong> @venues.Location</p>
+						<p class="card-text"><strong>Capacity:</strong> @venues.Capacity</p>
+						<a asp-action="Delete" asp-route-id="@venues.Id" class="btn btn-danger">Delete</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<!-- Venue Upload Form-->
+<div class="container mt-4 p-4 bg-light rounded">
+	<h4 class="text-center">Add a new Venue</h4>
+	<form asp-action="Create" method="post" enctype="multipart/form-data" class="p-3">
+		<div class="mb-3">
+			<label class="form-label">Upload Image</label>
+			<input type="file" name="eventimages" class="form-control" required />	
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Venue Name</label>
+			<input type="file" name="Venue Name" placeholder="Enter the venue name" required />
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Venue Location</label>
+			<input type="file" name="Venue Location" placeholder="Enter the venue location" required />
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Venue Capacity</label>
+			<input type="file" name="Venue Capacity" placeholder="Enter the venue capacity" required />
+		</div>
+
+		<button typeof="submit" class="btn btn-success w-100">Add Venue</button>
+		</form>
+</div>
