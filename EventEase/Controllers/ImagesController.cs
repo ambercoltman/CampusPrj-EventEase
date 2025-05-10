@@ -19,7 +19,6 @@ namespace EventEase.Controllers
             _blobServiceClient = new BlobServiceClient(config["AzureBlobStorage:ConnectionStrings"]);
             _containerName = config["AzureBlobStorage:ContainerName"];
         }
-
         public async Task<IActionResult> Index()
         {
             return View(await _contexts.Venues.ToListAsync());
@@ -39,7 +38,8 @@ namespace EventEase.Controllers
             var existingVenues = _contexts.Venues.Where(p => p.VenueName.StartsWith(VenueName)).ToList();
             string uniqueName = existingVenues.Count > 0 ? $"{VenueName}{existingVenues.Count + 1}" : VenueName;
 
-            var Venues = new Venues { VenueName = uniqueName, Location = Location, Capacity = Capacity, ImageUrl = blob.Uri.ToString() };
+            var Venues = new Venues { VenueName = uniqueName, Location = Location, Capacity = Capacity, 
+                                    ImageUrl = blob.Uri.ToString() };
             _contexts.Venues.Add(Venues);
             await _contexts.SaveChangesAsync();
 
@@ -58,7 +58,7 @@ namespace EventEase.Controllers
 
             var blob = container.GetBlobClient(blobName);
 
-            if (_contexts.Venues.Count(pet => pet.ImageUrl == pet.ImageUrl) <= 1)
+            if (_contexts.Venues.Count(Venues => Venues.ImageUrl == Venues.ImageUrl) <= 1)
             {
                 await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
             }

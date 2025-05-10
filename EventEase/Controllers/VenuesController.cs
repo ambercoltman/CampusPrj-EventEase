@@ -1,4 +1,7 @@
-﻿using EventEase.Models;
+﻿using System.Net;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using EventEase.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,9 +10,13 @@ namespace EventEase.Controllers
     public class VenuesController : Controller
     {
         private readonly ApplicationDBContexts _context;
-        public VenuesController(ApplicationDBContexts context)
+        private readonly BlobServiceClient _blobServiceClient;
+        private readonly string _containerName;
+        public VenuesController(ApplicationDBContexts context, IConfiguration config)
         {
             _context = context;
+            _blobServiceClient = new BlobServiceClient(config["AzureBlobStorage:ConnectionStrings"]);
+            _containerName = config["AzureBlobStorage:ContainerName"];
         }
         public async Task<IActionResult> Index()
         {
@@ -24,15 +31,30 @@ namespace EventEase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Venues venues)
+        public async Task<IActionResult> Create(IFormFile imageFile, string VenueName, string Location, int Capacity)
         {
-            if (ModelState.IsValid)
+            if (imageFile == null) return BadRequest("No image has been uploaded. Try again."); //image not uploading(fix)
+
+            var container = _blobServiceClient.GetBlobContainerClient(_containerName);
+            var blob = container.GetBlobClient(imageFile.FileName);
+
+            using var stream = imageFile.OpenReadStream();
+            await blob.UploadAsync(stream, overwrite: true);
+
+            var existingVenues = _context.Venues.Where(p => p.VenueName.StartsWith(VenueName)).ToList();
+            string uniqueName = existingVenues.Count > 0 ? $"{VenueName}{existingVenues.Count + 1}" : VenueName;
+
+            var venues = new Venues
             {
-                _context.Add(venues);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(venues);
+                VenueName = uniqueName,
+                Location = Location,
+                Capacity = Capacity,
+                ImageUrl = blob.Uri.ToString()
+            };
+            _context.Venues.Add(venues);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -112,14 +134,23 @@ namespace EventEase.Controllers
         public async Task <IActionResult> Delete(int id)
         {
             var venues = await _context.Venues.FindAsync(id);
-            if(venues == null)
+            if (venues == null) return NotFound();
+
+            var container = _blobServiceClient.GetBlobContainerClient(_containerName);
+
+            var blobUri = new Uri(venues.ImageUrl); //when try to delete, shows this is the problem (fix)
+            var blobName = WebUtility.UrlDecode(blobUri.Segments.Last());
+
+            var blob = container.GetBlobClient(blobName);
+
+            if (_context.Venues.Count(Venues => Venues.ImageUrl == Venues.ImageUrl) <= 1)
             {
-                return NotFound();
+                await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
             }
 
             _context.Venues.Remove(venues);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
     }
 }

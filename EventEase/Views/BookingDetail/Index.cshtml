@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Booking Details";
+}
+<h1 style="color:deeppink">Booking Details</h1>
+<div>
+    @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+    {
+        <table>
+            <tr>
+                <td>
+                    <span> Search By:</span>
+                    @Html.RadioButton("SearchBy", "Id", true)
+                    <text> Id </text>
+                    @Html.RadioButton("SearchBy", "Event Name")
+                    <text> Event Name </text>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("Search", null, new { Class = "form-control", placeholder = "Enter Event Name or Booking Id." })
+                </td>
+                <td>
+                    <input type="submit" value="Search" class="btn btn-success" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>

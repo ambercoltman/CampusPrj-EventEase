@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using EventEase.Models;
 namespace EventEase.Models
 {
     public class ApplicationDBContexts : DbContext
@@ -10,5 +11,6 @@ namespace EventEase.Models
         public DbSet<Venues> Venues { get; set; }
         public DbSet<Events> Events { get; set; }
         public DbSet<Booking> Booking { get; set; }
+        public DbSet<EventEase.Models.BookingDetail> BookingDetail { get; set; } = default!;
     }
 }

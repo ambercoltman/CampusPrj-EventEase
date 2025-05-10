@@ -1,57 +1,47 @@
-﻿@model IEnumerable<EventEase.Models.Venues>
+﻿@model List<Venues>
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h2 class="text-center mt-4">🏦VENUES🏦</h2>
 
-<h1 style="color:deeppink">Venues Page</h1>
+<div class="container mt-3">
+	<div class="row">
+		@foreach (var Venues in Model)
+		{
+			<div class="col-md-4 mb-4">
+				<div class="card shadow-sm text-center">
+					<img src="@Venues.ImageUrl" class="card-img-top img-fluid rounded" alt="@Venues.VenueName">
+					<div class="card-body">
+						<h5 class="card-title">@Venues.VenueName</h5>
+						<p class="card-text"><strong>Location:</strong> @Venues.Location</p>
+						<p class="card-text"><strong>Capacity:</strong> @Venues.Capacity</p>
+						<a asp-action="Delete" asp-route-id="@Venues.Id" class="btn btn-danger">Delete</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
 
-<p>
-    <a asp-action="Create" style="color:lightcoral">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.VenueName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Capacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VenueName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.ImageUrl) <img src=" https://picsum.photos/50/50" />
-            </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" style=" color:lightcoral">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" style=" color:lightcoral">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" style=" color:lightcoral">Delete</a>
-                </td>
-        </tr>
-}
-    </tbody>
-</table>
+<!-- Venue Upload Form-->
+<div class="container mt-4 p-4 bg-light rounded">
+	<h4 class="text-center">Add a new Venue</h4>
+	<form asp-action="Create" method="post" enctype="multipart/form-data" class="p-3">
+		<div class="mb-3">
+			<label class="form-label">Upload Image</label>
+			<input type="file" name="eventimages" class="form-control" required />
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Venue Name</label>
+			<input type="text" name="Venue Name" placeholder="Enter the venue name" required />
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Venue Location</label>
+			<input type="text" name="Venue Location" placeholder="Enter the venue location" required />
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Venue Capacity</label>
+			<input type="number" name="Venue Capacity" placeholder="Enter the venue capacity" required />
+		</div>
 
-
-            @* //Aspose, 2025. Working with HTML Color - Background Color and Text Color, [onine]. Available at:<https://docs.aspose.com/html/net/tutorial/working-with-html-color/#:~:text=To%20set%20the%20text%20or,tag%20or%20external%20style%20sheet.> [Accessed 06 April 2025]. 
- *@
+		<button typeof="submit" class="btn btn-success w-100">Add Venue</button>
+	</form>
+</div>
