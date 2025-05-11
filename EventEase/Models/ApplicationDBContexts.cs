@@ -11,6 +11,6 @@ namespace EventEase.Models
         public DbSet<Venues> Venues { get; set; }
         public DbSet<Events> Events { get; set; }
         public DbSet<Booking> Booking { get; set; }
-        public DbSet<EventEase.Models.BookingDetail> BookingDetail { get; set; } = default!;
+        public DbSet<BookingDetail> BookingDetail { get; set; }
     }
 }

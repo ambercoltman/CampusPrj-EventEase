@@ -1,28 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Booking Details";
+﻿@model IEnumerable<EventEase.Models.BookingDetail>
+
+@{
+    ViewData["Title"] = "Index";
 }
-<h1 style="color:deeppink">Booking Details</h1>
-<div>
-    @using (Html.BeginForm("Index", "Product", FormMethod.Get))
-    {
-        <table>
-            <tr>
-                <td>
-                    <span> Search By:</span>
-                    @Html.RadioButton("SearchBy", "Id", true)
-                    <text> Id </text>
-                    @Html.RadioButton("SearchBy", "Event Name")
-                    <text> Event Name </text>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.TextBox("Search", null, new { Class = "form-control", placeholder = "Enter Event Name or Booking Id." })
-                </td>
-                <td>
-                    <input type="submit" value="Search" class="btn btn-success" />
-                </td>
-            </tr>
-        </table>
-    }
-</div>
+
+<h1 style="color:deeppink">Booking Detail</h1>
+
+        <form method="get" asp-action"Index">
+            <p>
+        <input type="search" placeholder="Search by Event Name" value="@ViewData["BookingDetails"]" name="search" style="width:600px;"/>
+        <input type="submit" value="Search" class="btn btn-primary"/>
+        <a asp-action="Index">All Booking Details</a>
+            </p>
+        </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.bookingDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bookingDate)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

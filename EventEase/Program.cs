@@ -14,7 +14,8 @@ namespace EventEase
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<ApplicationDBContexts>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<ApplicationDBContexts>(options => options.UseSqlServer
+            (builder.Configuration.GetConnectionString("DefaultConnection")));
             
 
             //Configure the Azure Blob Storage
