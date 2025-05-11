@@ -31,29 +31,27 @@ namespace EventEase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(IFormFile imageFile, string VenueName, string Location, int Capacity)
+        public async Task<IActionResult> Create(IFormFile imageFile, string venueName, string location, int capacity)
         {
-            if (imageFile == null) return BadRequest("No image has been uploaded. Try again."); //image not uploading(fix)
-
+            if (imageFile == null) return BadRequest("No image has been uploaded. Try again."); 
             var container = _blobServiceClient.GetBlobContainerClient(_containerName);
             var blob = container.GetBlobClient(imageFile.FileName);
 
             using var stream = imageFile.OpenReadStream();
             await blob.UploadAsync(stream, overwrite: true);
 
-            var existingVenues = _context.Venues.Where(p => p.VenueName.StartsWith(VenueName)).ToList();
-            string uniqueName = existingVenues.Count > 0 ? $"{VenueName}{existingVenues.Count + 1}" : VenueName;
+            var existingVenue = _context.Venues.Where(p => p.VenueName.StartsWith(venueName)).ToList();
+            string uniqueName = existingVenue.Count > 0 ? $"{venueName}{existingVenue.Count + 1}" : venueName;
 
             var venues = new Venues
             {
                 VenueName = uniqueName,
-                Location = Location,
-                Capacity = Capacity,
+                Location = location,
+                Capacity = capacity,
                 ImageUrl = blob.Uri.ToString()
             };
             _context.Venues.Add(venues);
             await _context.SaveChangesAsync();
-
             return RedirectToAction("Index");
         }
 
@@ -134,16 +132,19 @@ namespace EventEase.Controllers
         public async Task <IActionResult> Delete(int id)
         {
             var venues = await _context.Venues.FindAsync(id);
-            if (venues == null) return NotFound();
+            if (venues == null)
+            {
+                return NotFound();
+            }
 
             var container = _blobServiceClient.GetBlobContainerClient(_containerName);
 
-            var blobUri = new Uri(venues.ImageUrl); //when try to delete, shows this is the problem (fix)
+            var blobUri = new Uri(venues.ImageUrl); 
             var blobName = WebUtility.UrlDecode(blobUri.Segments.Last());
 
             var blob = container.GetBlobClient(blobName);
 
-            if (_context.Venues.Count(Venues => Venues.ImageUrl == Venues.ImageUrl) <= 1)
+            if (_context.Venues.Count(v => v.ImageUrl == v.ImageUrl) <= 1)
             {
                 await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
             }
