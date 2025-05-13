@@ -11,6 +11,7 @@ namespace EventEase.Controllers
         {
             _context = context;
         }
+        //listing all the bookings
         public async Task<IActionResult> Index()
         {
             var Booking = await _context.Booking.ToListAsync();
@@ -28,28 +29,19 @@ namespace EventEase.Controllers
 
         public async Task <IActionResult> Create(Booking booking)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(booking);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //ViewBag.Students = _context.Venues.ToList();
-            //ViewBag.Companies = _context.Events.ToList();
-            //return View(booking);
-
             //checks if there is any booking that has the same VenueId and BookingDate
-            bool existingBooking = _context.BookingDetail.Any(b => b.VenuesId == booking.VenuesId
+            bool existingBooking = _context.Booking.Any(b => b.VenuesId == booking.VenuesId
                                                               && b.bookingDate == booking.bookingDate);
 
             if (existingBooking != null)
             {
-                //this error message will print out  if a booking exists
+                //this error message will print out  if a booking exis
                 ModelState.AddModelError("","Venue is already booked for that specific date and time");
+                ViewBag.Students = _context.Venues.ToList();
+                ViewBag.Companies = _context.Events.ToList();
                 return View(booking);
             }
-
-
+        
             //booking will be created if there isnt an existing booking
             _context.Booking.Add(booking);
             await _context.SaveChangesAsync();
@@ -82,6 +74,7 @@ namespace EventEase.Controllers
             return View(booking);
         }
 
+        //to check if booking exists
         public bool BookingExists(int id)
         {
             return _context.Booking.Any(e => e.Id == id);

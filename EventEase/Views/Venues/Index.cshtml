@@ -1,5 +1,10 @@
 ﻿@model List<Venues>
-
+@if(TempData["ErrorMessage"] != null)
+{
+	<div class="alert aert-danger">
+		@TempData["ErrorMessage"]
+	</div>
+}
 <h2 class="text-center mt-4">🏦VENUES🏦</h2>
 
 <div class="container mt-3">
@@ -45,3 +50,4 @@
 		<button typeof="submit" class="btn btn-success w-100">Add Venue</button>
 		</form>
 </div>
+

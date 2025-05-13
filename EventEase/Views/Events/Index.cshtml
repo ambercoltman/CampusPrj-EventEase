@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<EventEase.Models.Events>
-
+@if(TempData["ErrorMessage"] != null)
+{
+	<div class="alert aert-danger">
+		@TempData["ErrorMessage"]
+	</div>
+}
 @{
     ViewData["Title"] = "Index";
 }

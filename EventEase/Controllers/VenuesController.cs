@@ -132,6 +132,7 @@ namespace EventEase.Controllers
 
         public async Task <IActionResult> Delete(int id)
         {
+            var booking = await _context.Booking.FindAsync(id);
             var venues = await _context.Venues.FindAsync(id);
             if (venues == null)
             {
@@ -145,14 +146,20 @@ namespace EventEase.Controllers
 
             var blob = container.GetBlobClient(blobName);
 
-            if (_context.Venues.Count(v => v.ImageUrl == v.ImageUrl) <= 1)
+            if (_context.Venues.Count(v => v.ImageUrl == venues.ImageUrl) <= 1)
             {
                 await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
             }
 
-            _context.Venues.Remove(venues);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (_context.Booking.Any(b => b.VenuesId == id))
+            {
+                ModelState.AddModelError("", "Can not delete because has active booking.");
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Venues.Remove(_context.Venues.Find(id));
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

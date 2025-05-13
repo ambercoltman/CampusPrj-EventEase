@@ -110,15 +110,17 @@ namespace EventEase.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var events = await _context.Events.FindAsync(id);
-            if (events == null)
+            var booking = await _context.Booking.FindAsync(id);
+            if (_context.Booking.Any(b => b.EventsId == id))
             {
-                return NotFound();
+                ModelState.AddModelError("","Can not delete because has active booking.");
+                return RedirectToAction(nameof(Index));
             }
 
-            _context.Events.Remove(events);
-            await _context.SaveChangesAsync();
+            _context.Events.Remove(_context.Events.Find(id));
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
+
         }
 
     }
