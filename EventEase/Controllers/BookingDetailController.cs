@@ -22,15 +22,7 @@ namespace EventEase.Controllers
             }
             return View(bookings.ToList());
         }
-
-        //public async Task<IActionResult> BookingDetails(string search)
-        //{
-        //    var bookings = from b in _context.BookingDetail select b;
-        //    if(!string.IsNullOrEmpty(search))
-        //    {
-        //        bookings = bookings.Where(b => b.EventName.Contains(search));
-        //    }
-        //    return View(bookings.ToList());
-        //}
     }
 }
+
+////Haritha Computers & Technology, 2020.How To Implement Search Functionality in ASP.NET CORE MVC Index View VS2019. [video online]. Available at:<https://www.youtube.com/watch?v=JHrBbQAqm0s> [Accessed 11 May 2025].

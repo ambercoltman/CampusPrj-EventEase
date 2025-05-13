@@ -29,6 +29,8 @@ namespace EventEase.Controllers
 
         public async Task <IActionResult> Create(Booking booking)
         {
+            //Microsoft (2024) demonstrates how to use the (.Any)
+
             //checks if there is any booking that has the same VenueId and BookingDate
             bool existingBooking = _context.Booking.Any(b => b.VenuesId == booking.VenuesId
                                                               && b.bookingDate == booking.bookingDate);
@@ -141,3 +143,4 @@ namespace EventEase.Controllers
 }
 
 ////IIEVC School of Computer Science, 2025. CLDV6211: Mastering SQL, Cloud & Azure(2025 Guide). [video online]. Available at: <https://www.youtube.com/playlist?list=PL480DYS-b_kevhFsiTpPIB2RzhKPig4iK> [Accessed 06 April 2025].
+///Microsoft. 2024.Model validation in ASP.NET Core MVC (Version 2.0) [Source code]. Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-9.0> [Accessed 12 May 2025].

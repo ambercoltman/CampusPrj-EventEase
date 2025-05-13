@@ -21,4 +21,4 @@ namespace EventEase.Models
     }
 }
 
-//Quin,M, 2024. ASP>NET MVC: Form Validation,[blog] 04 February.Available at: < https://medium.com/%40MJQuinn/asp-net-mvc-form-validation-d5473229f138 > [Accessed 11 May 2025].
+//Quin,M. 2024. ASP.NET MVC: Form Validation,[blog] 04 February.Available at: < https://medium.com/%40MJQuinn/asp-net-mvc-form-validation-d5473229f138 > [Accessed 11 May 2025].
