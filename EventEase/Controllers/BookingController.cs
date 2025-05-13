@@ -23,19 +23,37 @@ namespace EventEase.Controllers
             ViewBag.Events = _context.Events.ToList();
             return View();
         }
+          
         [HttpPost]
 
         public async Task <IActionResult> Create(Booking booking)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(booking);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //ViewBag.Students = _context.Venues.ToList();
+            //ViewBag.Companies = _context.Events.ToList();
+            //return View(booking);
+
+            //checks if there is any booking that has the same VenueId and BookingDate
+            bool existingBooking = _context.BookingDetail.Any(b => b.VenuesId == booking.VenuesId
+                                                              && b.bookingDate == booking.bookingDate);
+
+            if (existingBooking != null)
             {
-                _context.Add(booking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //this error message will print out  if a booking exists
+                ModelState.AddModelError("","Venue is already booked for that specific date and time");
+                return View(booking);
             }
-            ViewBag.Students = _context.Venues.ToList();
-            ViewBag.Companies = _context.Events.ToList();
-            return View(booking);
+
+
+            //booking will be created if there isnt an existing booking
+            _context.Booking.Add(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -68,6 +86,7 @@ namespace EventEase.Controllers
         {
             return _context.Booking.Any(e => e.Id == id);
         }
+
         [HttpPost]
 
         public async Task<IActionResult> Edit(int id, Booking booking)
@@ -84,7 +103,7 @@ namespace EventEase.Controllers
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
                     if (!BookingExists(booking.Id))
                     {

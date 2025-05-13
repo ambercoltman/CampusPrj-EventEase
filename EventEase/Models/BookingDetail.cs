@@ -12,6 +12,8 @@ namespace EventEase.Models
         [Required]
         public string VenueName { get; set; }
         [Required]
+        public int VenuesId { get; set; }
+        [Required]
         public string Location { get; set; }
         [Required]
         public DateTime bookingDate { get; set; }

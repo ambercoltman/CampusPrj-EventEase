@@ -119,13 +119,14 @@ namespace EventEase.Controllers
 
         public async Task <IActionResult> Delete(int? id)
         {
-            var venues = await _context.Venues.FirstOrDefaultAsync(m => m.Id == id); 
-
+            var venues = await _context.Venues.FirstOrDefaultAsync(m => m.Id == id);
+         
             if (venues == null)
             { 
                 return NotFound();
             }
             return View(venues);
+            
         }
         [HttpPost]
 

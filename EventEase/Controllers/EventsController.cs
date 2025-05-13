@@ -32,6 +32,7 @@ namespace EventEase.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(events);
+
         }
 
         public async Task<IActionResult> Details(int? id)
