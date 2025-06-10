@@ -18,6 +18,7 @@
 						<h5 class="card-title">@Venues.VenueName</h5>
 						<p class="card-text"><strong>Location:</strong> @Venues.Location</p>
 						<p class="card-text"><strong>Capacity:</strong> @Venues.Capacity</p>
+						<p class="card-text"><strong>Availability:</strong> @Venues.IsAvailable</p>
 						<a asp-action="Delete" asp-route-id="@Venues.Id" method="post" class="btn btn-danger">Delete</a>
 					</div>
 				</div>
@@ -45,6 +46,10 @@
 		<div class="mb-3">
 			<label class="form-label">Venue Capacity</label>
 			<input type="number" name="Capacity" placeholder="Enter the venue capacity" required />
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Venue Availability</label>
+			<input type="number" name="Capacity" placeholder="Enter if the venue is available" required />
 		</div>
 
 		<button typeof="submit" class="btn btn-success w-100">Add Venue</button>

@@ -14,6 +14,10 @@ namespace EventEase.Models
         public DateTime EventEndDate{ get; set; }
         [Required]
         public string Description{ get; set; }
+        [Required]
+        public int EventTypeID { get; set; }
+        [Required]
+        public EventType TypeName { get; set; }
     }
 }
 

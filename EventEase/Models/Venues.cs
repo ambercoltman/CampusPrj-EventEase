@@ -12,7 +12,9 @@ namespace EventEase.Models
         [Required]
         public int Capacity { get; set; }
         [Required]
-        public string ImageUrl { get; set; } 
+        public string ImageUrl { get; set; }
+        [Required]
+        public bool IsAvailable { get; set; }
     }
 }
 
