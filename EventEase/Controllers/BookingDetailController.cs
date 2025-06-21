@@ -1,6 +1,7 @@
 ﻿using EventEase.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EventEase.Controllers
 {
@@ -12,15 +13,30 @@ namespace EventEase.Controllers
             _context = context;
         }
         //lists booking details
-        public async Task<IActionResult>Index(string search)
+        public async Task<IActionResult>Index(string search, string searchBy)
         {
             var bookings = from b in _context.BookingDetail select b;
-            //will show the bookings if a search term is given
-            if (!string.IsNullOrEmpty(search))
+            if(searchBy == "TypeName")
             {
-                bookings = bookings.Where(b => b.EventName.Contains(search));
+                return View(bookings.Where(x => x.EventType == search || search == null).ToList());
             }
-            return View(bookings.ToList());
+            else if (searchBy == "isAvailable")
+            {
+                
+                if(bool.TryParse(search, out bool value))
+                { 
+                return View(bookings.Where(x => x.isAvailable == value || search == null).ToList());
+                }
+                else
+                {
+                    return View(bookings.ToList());
+                }
+            }
+            else
+            {
+                return View(bookings.Where(x => x.EventName.StartsWith(search) || search == null).ToList());
+            }
+
         }
     }
 }

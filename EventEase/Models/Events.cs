@@ -4,7 +4,7 @@ namespace EventEase.Models
 {
     public class Events
     {
-        //Quinn states that the [Rquired] attributes that will show a message to the user to fill out the fields.
+        //Quinn states that the [Required] attributes that will show a message to the user to fill out the fields.
         public int Id { get; set; }
         [Required]
         public string EventName{ get; set; }
@@ -16,8 +16,6 @@ namespace EventEase.Models
         public string Description{ get; set; }
         [Required]
         public int EventTypeID { get; set; }
-        [Required]
-        public EventType TypeName { get; set; }
     }
 }
 

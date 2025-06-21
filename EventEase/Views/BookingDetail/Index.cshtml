@@ -8,8 +8,15 @@
 
         <form method="get" asp-action"Index">
             <p>
-        <input type="search" placeholder="Search by Event Name" value="@ViewData["BookingDetails"]" name="search" style="width:600px;"/>
-        <input type="submit" value="Search" class="btn btn-primary"/>
+                @using (Html.BeginForm("Index", "Home", FormMethod.Get)) //ActionMethod : Controller : Method
+                {
+                    <b>Search by: </b>
+                    @Html.RadioButton("SearchBy", "EventName",true) <text> Event Name</text>
+                    @Html.RadioButton("SearchBy", "TypeName") <text> Event Type</text>
+                    @Html.RadioButton("SearchBy", "isAvailable") <text> Available Venue</text>
+                    @Html.TextBox("search", "", htmlAttributes: new {@class="w-60 form-control"})
+            <input type="submit" value="Search" class="btn btn-primary" />
+                }
         <a asp-action="Index">All Booking Details</a>
             </p>
         </form>
@@ -32,11 +39,25 @@
             <th>
                 @Html.DisplayNameFor(model => model.bookingDate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventType)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model.isAvailable)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="7" class="text-danger fw-bold">No information is found</td>
+            </tr>
+        }
+        else
+        {
+           foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.EventName)
@@ -53,7 +74,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.bookingDate)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventType)
+            </td> 
+            <td>
+                @(item.isAvailable ? "Yes" : "No")
+            </td>
         </tr>
+}
 }
     </tbody>
 </table>

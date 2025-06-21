@@ -12,5 +12,6 @@ namespace EventEase.Models
         public DbSet<Events> Events { get; set; }
         public DbSet<Booking> Booking { get; set; }
         public DbSet<BookingDetail> BookingDetail { get; set; }
+        public DbSet<EventType> EventType { get; set; }
     }
 }

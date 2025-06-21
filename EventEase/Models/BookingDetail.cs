@@ -18,6 +18,10 @@ namespace EventEase.Models
         public string Location { get; set; }
         [Required]
         public DateTime bookingDate { get; set; }
+        [Required]
+        public bool isAvailable { get; set; }
+        [Required]
+        public string EventType { get; set; }
     }
 }
 
