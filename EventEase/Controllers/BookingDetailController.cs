@@ -16,14 +16,15 @@ namespace EventEase.Controllers
         public async Task<IActionResult>Index(string search, string searchBy)
         {
             var bookings = from b in _context.BookingDetail select b;
+            //Netcode-Hub shows what the if statements would look like
             if(searchBy == "TypeName")
             {
                 return View(bookings.Where(x => x.EventType == search || search == null).ToList());
             }
             else if (searchBy == "isAvailable")
             {
-                
-                if(bool.TryParse(search, out bool value))
+                //HaloFour demontrates how to use a tryparse
+                if (bool.TryParse(search, out bool value))
                 { 
                 return View(bookings.Where(x => x.isAvailable == value || search == null).ToList());
                 }
@@ -40,5 +41,5 @@ namespace EventEase.Controllers
         }
     }
 }
-
-////Haritha Computers & Technology, 2020.How To Implement Search Functionality in ASP.NET CORE MVC Index View VS2019. [video online]. Available at:<https://www.youtube.com/watch?v=JHrBbQAqm0s> [Accessed 11 May 2025].
+///Netcode-Hub, 2022. ASP.NET MVC Tutorials - Implementing Search Functionality in ASP>NET MVC. [video online] 26 October. Available at: <https://www.youtube.com/watch?v=bzWJOxBR-MY> [Accessed 21 June 2025].
+///HaloFour, 2017. Proposal: Support out/pattern variables in LINQ with query-scoping. [onine] 21 February. Available at: <https://github.com/dotnet/csharplang/discussions/159?utm> [Accessed 21 June 2025].

@@ -8,6 +8,7 @@
 
         <form method="get" asp-action"Index">
             <p>
+        <!--Netcode-Hub shows how to use radio buttons and the search button-->
                 @using (Html.BeginForm("Index", "Home", FormMethod.Get)) //ActionMethod : Controller : Method
                 {
                     <b>Search by: </b>
@@ -77,6 +78,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EventType)
             </td> 
+                    <!--Dunlap shows how to display yes or no fields in MVC-->
             <td>
                 @(item.isAvailable ? "Yes" : "No")
             </td>
@@ -86,4 +88,5 @@
     </tbody>
 </table>
 
-<!--Haritha Computers & Technology, 2020.How To Implement Search Functionality in ASP.NET CORE MVC Index View VS2019. [video online]. Available at:<https://www.youtube.com/watch?v=JHrBbQAqm0s> [Accessed 11 May 2025].--!>
+<!--Netcode-Hub, 2022. ASP.NET MVC Tutorials - Implementing Search Functionality in ASP>NET MVC. [video online] 26 October. Available at: <https://www.youtube.com/watch?v=bzWJOxBR-MY> [Accessed 17 June 2025].-->
+<!--Dunlap,M, 2013. c# MVC model boolean display yes or no. [online]. 02 December. Available at: <https://stackoverflow.com/questions/20338154/mvc-model-boolean-display-yes-or-no> [Accessed 21 June 2025].-->
