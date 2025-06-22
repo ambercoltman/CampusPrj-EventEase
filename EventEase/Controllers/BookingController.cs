@@ -35,14 +35,14 @@ namespace EventEase.Controllers
             bool existingBooking = _context.Booking.Any(b => b.VenuesId == booking.VenuesId
                                                               && b.bookingDate == booking.bookingDate);
 
-            if (existingBooking != null)
-            {
-                //this error message will print out  if a booking exis
-                ModelState.AddModelError("","Venue is already booked for that specific date and time");
-                ViewBag.Students = _context.Venues.ToList();
-                ViewBag.Companies = _context.Events.ToList();
-                return View(booking);
-            }
+            //if (existingBooking != null)
+            //{
+            //    //this error message will print out  if a booking exis
+            //    ModelState.AddModelError("","Venue is already booked for that specific date and time");
+            //    ViewBag.Students = _context.Venues.ToList();
+            //    ViewBag.Companies = _context.Events.ToList();
+            //    return View(booking);
+            //}
         
             //booking will be created if there isnt an existing booking
             _context.Booking.Add(booking);
